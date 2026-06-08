@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sigma Python Runner</title>
+    <!-- Pyodide Library Load ho rahi hai -->
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.26.1/full/pyodide.js"></script>
+</head>
+<body>
+
+    <h2>Sigma Python Runner 🐍</h2>
+    
+    <!-- Code likhne ka box -->
+    <textarea id="code" rows="10" cols="50" placeholder="Yahan apna Python code likho... jaise: print('Hello Sigma!')"></textarea>
+    <br>
+    
+    <!-- Run karne ka button -->
+    <button onclick="runCode()">Run Code</button>
+    
+    <!-- Result yahan dikhega -->
+    <h3>Output:</h3>
+    <pre id="output">Result yahan aayega...</pre>
+
+    <script>
+        async function runCode() {
+            // Output box mein loading dikhate hain
+            document.getElementById("output").innerText = "Loading Python...";
+            
+            // Pyodide load kar rahe hain
+            let pyodide = await loadPyodide();
+            
+            // Textarea se code utha rahe hain
+            let code = document.getElementById("code").value;
+            
+            try {
+                // Code ko run kar rahe hain
+                let result = await pyodide.runPythonAsync(code);
+                // Output ko screen par dikha rahe hain
+                document.getElementById("output").innerText = result;
+            } catch (err) {
+                // Agar code mein koi galti hai toh error dikhaye
+                document.getElementById("output").innerText = err;
+            }
+        }
+    </script>
+
+</body>
+</html>
